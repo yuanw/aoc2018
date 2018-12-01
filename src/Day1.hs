@@ -1,5 +1,9 @@
 module Day1
-    ( partI ,
+    ( partI,
+      partII,
+      findRepeat,
+      compute,
+      update,
     ) where
 
 import Data.List
@@ -15,5 +19,21 @@ partI = do
     let result = sum nums
     print result
 
+partII :: IO ()
+partII = do
+    nums <- readInput "data/input1.txt"
+    let seq = cycle nums
+    let result = findRepeat seq [0]
+    print result
+
 compute :: Int -> [Int] -> Int
-compute num nums = if length nums == 0 then num else num + (last nums)
+compute num nums = if length nums == 0 then num else num + (head nums)
+
+update :: Int -> [Int] -> (Bool, [Int])
+update num nums = (newNum `elem` nums, newNum : nums)
+    where newNum = compute num nums
+
+findRepeat :: [Int] -> [Int] -> Int
+findRepeat seq nums =  if exist then (head newNums) else findRepeat (tail seq) newNums
+    where num = head seq
+          (exist, newNums) = update num nums
