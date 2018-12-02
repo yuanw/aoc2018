@@ -1,4 +1,7 @@
-module Day2 (partI, partII) where
+module Day2
+        ( partI ,
+          partII
+        ) where
 
 import Control.Monad (guard)
 import Data.List (minimumBy)
@@ -8,9 +11,7 @@ import qualified Data.Map as Map
 type ID = String
 
 scan :: ID -> Map.Map Char Int
-scan = foldr updateMap Map.empty
-    where updateMap :: Char -> Map.Map Char Int -> Map.Map Char Int
-          updateMap k m = Map.insert k (fromMaybe 0 (Map.lookup k m) + 1 ) m
+scan = foldr (\ k m -> Map.insert k (fromMaybe 0 (Map.lookup k m) + 1 ) m) Map.empty
 
 check :: Map.Map Char Int -> (Int, Int)
 check map = (checkNum map 2, checkNum map 3)
@@ -25,9 +26,12 @@ readInput :: FilePath -> IO [ID]
 readInput path = lines <$> readFile path
 
 --fghij fguij -> (1, "fgij")
+--TODO: foldr vs foldl is still confusing to me
+-- x : val vs val ++ [x]
 distance :: ID -> ID -> (Int, String)
 distance a b = foldr (\ (x, y) (num, val) -> if x == y then (num, x : val) else (num + 1, val))  (0, "") $ zip a b
 
+-- TODO: figure out guard
 findAllAnwsers :: [ID] -> [(Int, String)]
 findAllAnwsers ids = do
     x <- ids

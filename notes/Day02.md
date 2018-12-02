@@ -13,3 +13,10 @@ We need to do
 > * `ababab` contains three `a` and three `b`, but it only counts once.
 
 `Map` seems be a reasonable structure to represent the result.
+
+`scan` function aims to do that transformation
+
+```haskell
+scan :: ID -> Map.Map Char Int
+scan = foldr (\ k m -> Map.insert k (fromMaybe 0 (Map.lookup k m) + 1 ) m) Map.empty
+```
