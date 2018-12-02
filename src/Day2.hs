@@ -19,7 +19,7 @@ check map = (checkNum map 2, checkNum map 3)
 
 
 checkSum :: [ID] -> Int
-checkSum ids = (\ (a, b) -> a * b) $ foldr (\ (a,b) (x,y) -> (a + x, b + y)) (0,0) $  map (check . scan) ids
+checkSum ids = uncurry (*) $ foldr (\ (a,b) (x,y) -> (a + x, b + y)) (0,0) $  map (check . scan) ids
 
 readInput :: FilePath -> IO [ID]
 readInput path = lines <$> readFile path
