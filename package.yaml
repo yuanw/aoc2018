@@ -28,6 +28,7 @@ dependencies:
 - containers
 - transformers
 - random
+- parsec
 
 library:
   source-dirs: src
