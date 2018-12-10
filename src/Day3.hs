@@ -1,5 +1,8 @@
 {-# LANGUAGE RecordWildCards #-}
-module Day3 where
+module Day3
+    ( partI ,
+      partII
+    ) where
 
 import           Control.Monad                 (join)
 import           Data.Either                   (isRight)
@@ -38,7 +41,7 @@ line = do
     char 'x'
     heightNum <- many digit
     eol
-    return Claim {no=(read claimNo), left=(read leftNum), top=(read topNum), width=(read widthNum ), height = (read heightNum)}
+    return Claim {no=(read claimNo), left=(read leftNum), top=(read topNum), width=(read widthNum ), height = read heightNum}
 
 -- The end of line character is \n
 eol :: GenParser Char st Char
@@ -60,6 +63,7 @@ getClaimArea claim = [(l + i, t + j)| i <- [0 .. (w - 1)],
           w = width  claim
           h = height claim
 
+-- RecordWildCards version
 coords :: Claim -> [Square]
 coords Claim {..} = do
     x <- [left .. left + width - 1]

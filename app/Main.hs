@@ -1,7 +1,7 @@
 module Main where
 
-import Day3
+import Day4
 
 main :: IO ()
 main = do
-    partII
+    partI
