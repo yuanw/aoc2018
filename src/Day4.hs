@@ -76,9 +76,15 @@ parseInputIO path = do
     content <-  readFile path
     return $ parseInput content
 
+splitByGuard :: [Entry] -> [[Entry]]
+splitByGuard entires = foldr f [] entires
+    where f :: Entry -> [[Entry]] -> [[Entry]]
+          f e ls = case e of s@(MKEntry a (BeginShift x)) -> ls ++ [[e]]
+                             _ -> (init ls) ++ ((tail ls) ++ [[e]])
+
 partI :: IO ()
 partI = do
     parseResult <- parseInputIO "data/input4.txt"
     case parseResult of
         Left e -> print e >> fail "parser error"
-        Right entries -> mapM_ (putStrLn . show ) $ sort entries
+        Right entries -> mapM_ (putStrLn . show ) $ (splitByGuard . sort) entries
