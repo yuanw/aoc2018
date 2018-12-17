@@ -20,3 +20,17 @@ We need to do
 scan :: ID -> Map.Map Char Int
 scan = foldr (\ k m -> Map.insert k (fromMaybe 0 (Map.lookup k m) + 1 ) m) Map.empty
 ```
+
+
+```
+-- if the list is empty, the result is the initial value z; else
+-- apply f to the first element and the result of folding the rest
+foldr f z []     = z
+foldr f z (x:xs) = f x (foldr f z xs)
+
+-- if the list is empty, the result is the initial value; else
+-- we recurse immediately, making the new initial value the result
+-- of combining the old initial value with the first element.
+foldl f z []     = z
+foldl f z (x:xs) = foldl f (f z x) xs
+```
